@@ -20,17 +20,25 @@ class QuestionTitleList extends Component {
       <Col sm={3} smOffset={4} xs={3} xsOffset={5} style={questionListStyle} >
         {
           this.props.lessonContent.map(question => {
+            let isSelectedQuestion;
+
+            if (this.props.selectedQuestion) {
+              isSelectedQuestion = this.props.selectedQuestion.text === question.text
+            }
+
+
 
             return (
               <QuestionTitle
                 title={question.text}
                 questionContent={question}
+                isSelectedQuestion={isSelectedQuestion}
                 handleQuestionClick={this.props.handleQuestionClick.bind(this)}
               />
             )
           })
         }
-        <i className="fa fa-plus-circle" aria-hidden="true" style={fontAwesomeStyle}></i>
+        <i onClick={this.props.handleAddQuestionClick} className="fa fa-plus-circle" aria-hidden="true" style={fontAwesomeStyle} ></i>
       </Col>
     )
   }
@@ -45,8 +53,8 @@ const styles = {
     height: '100%',
     position: 'fixed',
     paddingRight: 0,
-    paddingLeft: 5,
-    paddingLeft:0,
+    paddingLeft: 0,
+    paddingLeft: 0,
     paddingTop: 100,
     marginTop: 0,
     fontFamily: 'Lato',

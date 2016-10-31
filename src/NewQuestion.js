@@ -1,44 +1,11 @@
 import React, { Component } from 'react';
 import { Button, Col } from 'react-bootstrap';
 
-class QuestionDetail extends Component {
-  constructor(props) {
+class newQuestion extends Component {
+  constructor (props) {
     super(props)
-
-    //saves array of the answers inherited through props, in order to be able to add more choices/inputs to it
     this.state = {
-      inputs: this.props.question.choices
-    }
-  }
-
-  renderQuestion() {
-    const { QuestionDetailStyle, editableTextStyle } = styles;
-    return (
-      <div>
-        <h2>Question</h2>
-        <textArea style = { editableTextStyle } defaultValue={this.props.question.text} />
-      </div>
-    )
-  }
-
-
-  renderAnswers() {
-    const { answerInputStyle, fontAwesomeStyle } = styles;
-    if (this.props.question.choices) {
-      return (
-        <div>
-          <h2>Answers</h2>
-            {this.state.inputs.map(choiceInput => {
-              return (
-                <div>
-                  <input style={answerInputStyle} placeholder="..." defaultValue={choiceInput}/>
-                </div>
-              )
-            })}
-          <i className="fa fa-plus-circle" aria-hidden="true" style={fontAwesomeStyle}></i>
-          <p onClick={this.addChoice.bind(this)} style={{display: "inline"}}> Add another choice</p>
-        </div>
-      )
+      inputs: []
     }
   }
 
@@ -51,18 +18,54 @@ class QuestionDetail extends Component {
     }
   }
 
+  renderQuestion() {
+    const { QuestionDetailStyle, editableTextStyle } = styles;
+    return (
+      <div>
+        <h2>Question</h2>
+        <textArea style = { editableTextStyle } placeholder="Write your question here..." />
+      </div>
+    )
+  }
+
+
+  renderAnswers() {
+    const { answerInputStyle, fontAwesomeStyle, addNewChoiceSpanStyle } = styles;
+
+      return (
+        <div>
+          <h2>Answers</h2>
+          <input style={answerInputStyle} placeholder="Enter choice" />
+          <span style={addNewChoiceSpanStyle}>
+
+            <i className="fa fa-plus-circle"
+              aria-hidden="true"
+              style={fontAwesomeStyle}>
+            </i>
+            <p style={{display: "inline"}} onClick={this.addChoice.bind(this)}>
+              Add another choice
+            </p>
+          </span>
+
+        </div>
+      )
+    }
+
+
+
   render() {
-    const { QuestionDetailStyle, saveButtonStyle } = styles;
+    const { QuestionDetailStyle, editableTextStyle, saveButtonStyle } = styles;
     return (
       <Col sm={5} smOffset={7} style={QuestionDetailStyle}>
         <i style={{color: lightGrey}}>Click elements to edit</i>
         {this.renderQuestion()}
         {this.renderAnswers()}
-        <Button style={saveButtonStyle}>Save</Button>
+        <Button style={saveButtonStyle} onClick={this.props.handleSaveNewQuestionClick.bind(this)}>Save</Button>
       </Col>
     )
   }
 }
+
 const coral = '#FA848A'
 const lightGrey = '#A3A8AB'
 
@@ -89,7 +92,6 @@ const styles = {
 
   answerInputStyle: {
     border: 'none',
-    display: 'inline',
     color: '#7A7886'
   },
 
@@ -99,7 +101,10 @@ const styles = {
     opacity: 1,
     border: 0.2,
     textAlign: 'justified',
-    display: 'inline-block'
+  },
+  addNewChoiceSpanStyle: {
+    display:'block',
+    color: lightGrey
   },
 
   saveButtonStyle: {
@@ -110,5 +115,4 @@ const styles = {
   }
 }
 
-export default QuestionDetail;
-
+export default newQuestion;
